@@ -54,3 +54,4 @@ The API is exposed via NGINX on port `80`.
 ├── nginx/             # Reverse Proxy Configuration
 └── docker-compose.yml # Local Infrastructure Setup
 ```
+# micro-service
