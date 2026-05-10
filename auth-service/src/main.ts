@@ -6,14 +6,17 @@ import { Logger } from '@nestjs/common';
 async function bootstrap() {
   const logger = new Logger('AuthService');
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.REDIS,
+    transport: Transport.RMQ,
     options: {
-      host: process.env.REDIS_HOST || 'localhost',
-      port: parseInt(process.env.REDIS_PORT || '6379', 10),
+      urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
+      queue: 'auth_queue',
+      queueOptions: {
+        durable: false,
+      },
     },
   });
   
   await app.listen();
-  logger.log('Auth Microservice is listening via Redis');
+  logger.log('Auth Microservice is listening via RMQ');
 }
 bootstrap();

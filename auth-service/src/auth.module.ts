@@ -16,10 +16,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ClientsModule.register([
       {
         name: 'USER_SERVICE',
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST || 'localhost',
-          port: parseInt(process.env.REDIS_PORT || '6379', 10),
+          urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
+          queue: 'user_queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),
